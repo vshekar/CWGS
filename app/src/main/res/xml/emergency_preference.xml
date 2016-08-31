@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:key="add_number"
+        android:summary="@string/add_number_summary"
+        android:title="@string/add_number" />
+    <Preference
+        android:key="number1"
+        android:summary="Edit First number details"
+        android:title="First Number"
+        />
+</PreferenceScreen>

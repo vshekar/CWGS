@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="drawerList">
+        <item>Department of Public safety</item>
+        <item>Victim Advocate</item>
+        <item>Women\'s Center</item>
+    </string-array>
+    <string-array name="miscList">
+        <item>Report an incident</item>
+        <item>Resources</item>
+    </string-array>
+</resources>

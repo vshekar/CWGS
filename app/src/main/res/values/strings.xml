@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Emergency Contact</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="drawer_title">Resources</string>
+    <string name="phone_contacts_title">Phone Contacts</string>
+    <string name="misc_title">Other useful links</string>
+    <string name="add_number">Add number</string>
+    <string name="add_number_summary">Adds a new number to the list of emergency contacts</string>
+</resources>
