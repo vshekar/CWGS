@@ -51,10 +51,6 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
     public static File fileJson = new File("data/data/edu.umassd.emergencycontact/contacts.json");
 
-
-    //"data/data/edu.umassd.emergencycontact/contacts.json"
-
-
     Button addLocation;
     TextView viewLocation;
     EditText locName;
@@ -69,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
         addLocation = (Button) findViewById(R.id.add_location);
         locName = (EditText)findViewById(R.id.locName);
+
+
+//will be active on add_location layout
 
 /*        addLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                             JsonParser jsonParser = new JsonParser();
 
                             Contact contact = new Contact();
-                          //  contact.setId(id); //hard coding it for now | later read from file and set id dynamically
                             contact.setLocId(locId); //hard coding it for now | associated with location id
                             contact.setPname(nameContact);
                             contact.setPnumber(cNumber);
@@ -125,14 +123,8 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject JSONObject = new JSONObject(jsonStr);
                             int leng = jsonObj.getJSONObject("Contacts").length()+1;
 
-
-                            Toast.makeText(getApplicationContext(), "Writing to file - "+leng, Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(getApplicationContext(), "Writing to file", Toast.LENGTH_SHORT).show();
                             jsonObj.getJSONObject("Contacts").put(leng +"", JSONObject);
-
-
-                            //System.out.println("outputting - > "+contact.toString());
-                            //System.out.println("data/data/" + getPackageName()+ "== /directory ");
 
                             writeJsonFile(fileJson, jsonObj.toString());
 
@@ -156,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
         File fl = new File(filePath);
         FileInputStream fin = new FileInputStream(fl);
         String ret = convertStreamToString(fin);
-        //Make sure you close all streams.
         fin.close();
         return ret;
 
