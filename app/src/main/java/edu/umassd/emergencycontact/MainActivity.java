@@ -30,6 +30,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.json.JSONObject;
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     public static File fileJson = new File("data/data/edu.umassd.emergencycontact/contacts.json");
 
     Button addLocation;
-    TextView viewLocation;
+    TextView viewLocation,displayJson;
     EditText locName;
     int locId = 1;
 
@@ -129,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                             writeJsonFile(fileJson, jsonObj.toString());
 
 
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -139,9 +143,36 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
+                    try {
+                        displaycontacts();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
         }
+    }
+
+    private void displaycontacts() throws Exception {
+        Toast.makeText(getApplicationContext(), "displaying", Toast.LENGTH_SHORT).show();
+
+        displayJson= (TextView) findViewById(R.id.displayJson);
+
+        String jsText = getStringFromFile(fileJson.toString());
+        int GSONleng = new JSONObject(jsText).getJSONObject("Contacts").length()+1;
+
+        //http://stackoverflow.com/questions/5490789/json-parsing-using-gson-for-java
+        JsonElement je = new JsonParser().parse(jsText);
+        JsonObject jobj = je.getAsJsonObject();
+        jobj = jobj.getAsJsonObject("Contacts");
+
+        String sb = "";
+        for(int x=1;x<=GSONleng;x++) {
+            sb+= ("\n"+jobj.getAsJsonObject(x+"").get("Pnumber").toString());
+           displayJson.setText(sb);
+        }
+
     }
 
     private String getStringFromFile(String filePath) throws Exception {
