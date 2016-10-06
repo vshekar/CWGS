@@ -24,15 +24,23 @@
         android:onClick="callContacts"
         android:layout_alignParentRight="true" />
 
-    <TextView
+<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
+        android:visibility="invisible"
         android:id="@+id/displayJson"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/floatingbutton"
         android:layout_alignEnd="@+id/floatingbutton" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:id="@+id/contactList"
+        android:layout_height="match_parent">
+
+    </ListView>
 
 </RelativeLayout>

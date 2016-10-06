@@ -21,10 +21,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -176,12 +179,12 @@ public class MainActivity extends AppCompatActivity {
             Contact tempc = new Contact();
             tempc.Pname =jobj.getAsJsonObject(x+"").get("Pname").toString();
             tempc.Pnumber =jobj.getAsJsonObject(x+"").get("Pnumber").toString();
-
+            tempc.setLocId(1);
             contactList.add(tempc);
-            //sb+= ("\n"+jobj.getAsJsonObject(x+"").get("Pnumber").toString());
+
+            sb+= ("\n"+jobj.getAsJsonObject(x+"").get("Pnumber").toString());
             displayJson.setText(sb);
         }
-
         Toast.makeText(getApplicationContext(), contactList.size(), Toast.LENGTH_SHORT).show();
     }
 

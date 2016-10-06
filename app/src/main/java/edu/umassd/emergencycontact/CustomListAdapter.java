@@ -43,7 +43,7 @@ public class CustomListAdapter extends BaseAdapter {
         if (Inflater == null) {
             Inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
-        View itemView = Inflater.inflate(R.layout.custom_listlayout,parent,false);
+        View itemView = Inflater.inflate(R.layout.list_item,parent,false);
         TextView cName = (TextView) convertView.findViewById(R.id.cName);
         TextView cNumber = (TextView) convertView.findViewById(R.id.cNumber);
 
