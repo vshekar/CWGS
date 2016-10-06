@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void callContacts(View v) {
+        Log.e("CALLCONTACTS","Starting call contacts");
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(intent,1);
     }
@@ -185,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
             sb+= ("\n"+jobj.getAsJsonObject(x+"").get("Pnumber").toString());
             displayJson.setText(sb);
         }
+        CustomListAdapter cla = new CustomListAdapter(this, contactList);
         Toast.makeText(getApplicationContext(), contactList.size(), Toast.LENGTH_SHORT).show();
     }
 

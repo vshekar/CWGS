@@ -46,6 +46,9 @@ public class CustomListAdapter extends BaseAdapter {
         View itemView = Inflater.inflate(R.layout.list_item,parent,false);
         TextView cName = (TextView) convertView.findViewById(R.id.cName);
         TextView cNumber = (TextView) convertView.findViewById(R.id.cNumber);
+        Contact c = items.get(position);
+        cName.setText(c.getPname());
+        cNumber.setText(c.getPnumber());
 
         if (cName!=null) {
             //cName.setText(items.get(position));
