@@ -1,7 +1,7 @@
 package edu.umassd.emergencycontact;
 
 /**
- * Created by killer on 10/1/16.
+ * Created by Jayesh on 10/1/16.
  */
 public class Contact {
 
@@ -9,6 +9,12 @@ public class Contact {
     public String Pname;
     public String Pnumber;
     public int LocId;
+
+/*    public Contact(String pname, String pnumber, int LocId) {
+        this.setPnumber(pnumber);
+        this.setPname(pname);
+        this.setLocId(LocId);
+    }*/
 
     public int getLocId() {
         return LocId;

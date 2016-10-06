@@ -49,7 +49,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public static File fileJson = new File("data/data/edu.umassd.emergencycontact/contacts.json");
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     TextView viewLocation,displayJson;
     EditText locName;
     int locId = 1;
-
+    public ArrayList<Contact> contactList = new ArrayList<Contact>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Writing to file", Toast.LENGTH_SHORT).show();
                             jsonObj.getJSONObject("Contacts").put(leng +"", JSONObject);
 
+
                             writeJsonFile(fileJson, jsonObj.toString());
 
 
@@ -155,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displaycontacts() throws Exception {
-        Toast.makeText(getApplicationContext(), "displaying", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "displaying", Toast.LENGTH_SHORT).show();
 
         displayJson= (TextView) findViewById(R.id.displayJson);
 
@@ -169,10 +172,17 @@ public class MainActivity extends AppCompatActivity {
 
         String sb = "";
         for(int x=1;x<=GSONleng;x++) {
-            sb+= ("\n"+jobj.getAsJsonObject(x+"").get("Pnumber").toString());
-           displayJson.setText(sb);
+            //Contact tempc = new Contact(jobj.getAsJsonObject(x+"").get("Pname").toString(), jobj.getAsJsonObject(x+"").get("Pnumber").toString(),1);
+            Contact tempc = new Contact();
+            tempc.Pname =jobj.getAsJsonObject(x+"").get("Pname").toString();
+            tempc.Pnumber =jobj.getAsJsonObject(x+"").get("Pnumber").toString();
+
+            contactList.add(tempc);
+            //sb+= ("\n"+jobj.getAsJsonObject(x+"").get("Pnumber").toString());
+            displayJson.setText(sb);
         }
 
+        Toast.makeText(getApplicationContext(), contactList.size(), Toast.LENGTH_SHORT).show();
     }
 
     private String getStringFromFile(String filePath) throws Exception {
@@ -199,11 +209,9 @@ public class MainActivity extends AppCompatActivity {
         if(!fileJson.exists()){
             try {
                 fileJson.createNewFile();
-
                 String jsonString = "{\"Contacts\":{}}";
 
                 writeJsonFile(fileJson, jsonString);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
