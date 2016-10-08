@@ -8,56 +8,69 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Jayesh on 10/4/16.
+
+ followed this guide on setting up custom adapter
+http://stackoverflow.com/questions/36563010/custom-base-adapter-to-listview
+
  */
 public class CustomListAdapter extends BaseAdapter {
-    private Activity activity;
-    private LayoutInflater Inflater;
-    private List<Contact> items;
 
-    public CustomListAdapter(Activity activity, List<Contact> items) {
-        this.activity = activity;
-        this.items = items;
+
+    ArrayList<Contact> list;
+    Context context;
+    LayoutInflater mInflater;
+
+    public CustomListAdapter(Context c, ArrayList<Contact> list)
+    {
+        context = c;
+        this.list = list;
+        mInflater = LayoutInflater.from(this.context);
     }
 
     @Override
     public int getCount() {
-        return items.size();
+        return list.size();
     }
 
     @Override
-    public Object getItem(int i) {
-        return items.get(i);
+    public Object getItem(int position) {
+        return list.get(position);
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (Inflater == null) {
-            Inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        MyViewHolder mViewHolder;
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.list_item, parent, false);
+            mViewHolder = new MyViewHolder(convertView);
+            convertView.setTag(mViewHolder);
+        } else {
+            mViewHolder = (MyViewHolder) convertView.getTag();
         }
-        View itemView = Inflater.inflate(R.layout.list_item,parent,false);
-        TextView cName = (TextView) convertView.findViewById(R.id.cName);
-        TextView cNumber = (TextView) convertView.findViewById(R.id.cNumber);
-        Contact c = items.get(position);
-        cName.setText(c.getPname());
-        cNumber.setText(c.getPnumber());
-
-        if (cName!=null) {
-            //cName.setText(items.get(position));
-        }
-        if (cNumber!=null) {
-
-        }
-
-
-        return null;
+        Contact currentListData = (Contact) getItem(position);
+        mViewHolder.tv_name.setText(currentListData.getPname());
+        mViewHolder.tv_description.setText(currentListData.getPnumber());
+        return convertView;
     }
+    private class MyViewHolder {
+        TextView tv_name, tv_description;
+
+
+        public MyViewHolder(View item) {
+            tv_name = (TextView) item.findViewById(R.id.cName);
+            tv_description = (TextView) item.findViewById(R.id.cNumber);
+
+        }
+    }
+
 }
