@@ -177,8 +177,9 @@ public class MainActivity extends AppCompatActivity {
         for(int x=1;x<=GSONleng;x++) {
 
             Contact temp = new Contact();
-            temp.Pname =jobj.getAsJsonObject(x+"").get("Pname").toString();
-            temp.Pnumber =jobj.getAsJsonObject(x+"").get("Pnumber").toString();
+            temp.Pname =jobj.getAsJsonObject(x+"").get("Pname").toString().replace("\"", "");;
+            Log.e("-----",jobj.getAsJsonObject(x+"").toString());
+            temp.Pnumber =jobj.getAsJsonObject(x+"").get("Pnumber").toString().replace("\"", "");
             temp.setLocId(1);
             Log.e("added",temp.getPname()+ temp.getPnumber());
             contactList.add(temp);
