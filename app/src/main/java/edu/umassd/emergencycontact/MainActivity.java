@@ -69,7 +69,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        createJsonFiles();
+        try {
+            createJsonFiles();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         addLocation = (Button) findViewById(R.id.add_location);
         locName = (EditText)findViewById(R.id.locName);
@@ -209,8 +213,8 @@ public class MainActivity extends AppCompatActivity {
         return sb.toString();
     }
 
-    public void createJsonFiles(){
-        Toast.makeText(getApplicationContext(), "creating a file", Toast.LENGTH_SHORT).show();
+    public void createJsonFiles() throws Exception {
+        Toast.makeText(getApplicationContext(), "creating a file or showing", Toast.LENGTH_SHORT).show();
 
         if(!fileJson.exists()){
             try {
@@ -221,6 +225,8 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }else {
+            displaycontacts();
         }
     }
     public static void writeJsonFile(File file, String json)
