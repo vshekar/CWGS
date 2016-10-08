@@ -60,10 +60,10 @@ public class MainActivity extends AppCompatActivity {
     public static File fileJson = new File("data/data/edu.umassd.emergencycontact/contacts.json");
 
     Button addLocation;
-    TextView viewLocation,displayJson;
+    ListView listView;
     EditText locName;
     int locId = 1;
-    public ArrayList<Contact> contactList = new ArrayList<Contact>();
+    ArrayList<Contact> contactList = new ArrayList<Contact>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         addLocation = (Button) findViewById(R.id.add_location);
         locName = (EditText)findViewById(R.id.locName);
-
+        listView = (ListView) findViewById(R.id.contactList);
 
 //will be active on add_location layout
 
@@ -162,12 +162,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displaycontacts() throws Exception {
-        //Toast.makeText(getApplicationContext(), "displaying", Toast.LENGTH_SHORT).show();
-
-        displayJson= (TextView) findViewById(R.id.displayJson);
-
         String jsText = getStringFromFile(fileJson.toString());
-        int GSONleng = new JSONObject(jsText).getJSONObject("Contacts").length()+1;
+        Log.e("Displaying JS",jsText);
+
+        int GSONleng = new JSONObject(jsText).getJSONObject("Contacts").length();
+        Log.e("GONSLENg","length "+GSONleng);
 
         //http://stackoverflow.com/questions/5490789/json-parsing-using-gson-for-java
         JsonElement je = new JsonParser().parse(jsText);
@@ -176,17 +175,18 @@ public class MainActivity extends AppCompatActivity {
 
         String sb = "";
         for(int x=1;x<=GSONleng;x++) {
-            //Contact tempc = new Contact(jobj.getAsJsonObject(x+"").get("Pname").toString(), jobj.getAsJsonObject(x+"").get("Pnumber").toString(),1);
-            Contact tempc = new Contact();
-            tempc.Pname =jobj.getAsJsonObject(x+"").get("Pname").toString();
-            tempc.Pnumber =jobj.getAsJsonObject(x+"").get("Pnumber").toString();
-            tempc.setLocId(1);
-            contactList.add(tempc);
 
-            sb+= ("\n"+jobj.getAsJsonObject(x+"").get("Pnumber").toString());
-            displayJson.setText(sb);
+            Contact temp = new Contact();
+            temp.Pname =jobj.getAsJsonObject(x+"").get("Pname").toString();
+            temp.Pnumber =jobj.getAsJsonObject(x+"").get("Pnumber").toString();
+            temp.setLocId(1);
+            Log.e("added",temp.getPname()+ temp.getPnumber());
+            contactList.add(temp);
         }
-        CustomListAdapter cla = new CustomListAdapter(this, contactList);
+
+        CustomListAdapter adapter = new CustomListAdapter(this, contactList);
+        listView.setAdapter(adapter);
+
         Toast.makeText(getApplicationContext(), contactList.size(), Toast.LENGTH_SHORT).show();
     }
 
