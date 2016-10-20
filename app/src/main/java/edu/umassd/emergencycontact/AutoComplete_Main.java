@@ -85,7 +85,7 @@ public class AutoComplete_Main extends AppCompatActivity {
         });
     }
 
-    private String getStringFromFile(String filePath) throws Exception {
+    public String getStringFromFile(String filePath) throws Exception {
         File fl = new File(filePath);
         FileInputStream fin = new FileInputStream(fl);
         String ret = convertStreamToString(fin);
@@ -116,7 +116,10 @@ public class AutoComplete_Main extends AppCompatActivity {
                 e.printStackTrace();
             }
         }else {
-            //displaycontacts();
+
+            //should implement a more adaptive way..
+            MainActivity s= new MainActivity();
+            s.displaycontacts();
         }
     }
     public static void writeJsonFile(File file, String json)
