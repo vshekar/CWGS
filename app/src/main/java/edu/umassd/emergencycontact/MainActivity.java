@@ -64,12 +64,18 @@ public class MainActivity extends AppCompatActivity {
     EditText locName;
     int locId = 1;
     ArrayList<Contact> contactList = new ArrayList<Contact>();
+    FileJsonHelper fjhelper = new FileJsonHelper();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        createJsonFiles();
+        try {
+            fjhelper.createJsonFiles(fileJson);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         addLocation = (Button) findViewById(R.id.add_location);
         locName = (EditText)findViewById(R.id.locName);
@@ -117,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
                         String strFileJson = null;
                         try {
-                            strFileJson = getStringFromFile(fileJson.toString());
+                            strFileJson = fjhelper.getStringFromFile(fileJson.toString());
                             JSONObject jsonObj = new JSONObject(strFileJson);
                             Gson gson = new Gson();
                             JsonParser jsonParser = new JsonParser();
@@ -136,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                             jsonObj.getJSONObject("Contacts").put(leng +"", JSONObject);
 
 
-                            writeJsonFile(fileJson, jsonObj.toString());
+                            fjhelper.writeJsonFile(fileJson, jsonObj.toString());
 
 
 
@@ -161,8 +167,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void displaycontacts() throws Exception {
-        String jsText = getStringFromFile(fileJson.toString());
+    public void displaycontacts() throws Exception {
+
+        String jsText = fjhelper.getStringFromFile(fileJson.toString());
+
         Log.e("Displaying JS",jsText);
 
         int GSONleng = new JSONObject(jsText).getJSONObject("Contacts").length();
@@ -177,8 +185,9 @@ public class MainActivity extends AppCompatActivity {
         for(int x=1;x<=GSONleng;x++) {
 
             Contact temp = new Contact();
-            temp.Pname =jobj.getAsJsonObject(x+"").get("Pname").toString();
-            temp.Pnumber =jobj.getAsJsonObject(x+"").get("Pnumber").toString();
+            temp.Pname =jobj.getAsJsonObject(x+"").get("Pname").toString().replace("\"", "");;
+            Log.e("-----",jobj.getAsJsonObject(x+"").toString());
+            temp.Pnumber =jobj.getAsJsonObject(x+"").get("Pnumber").toString().replace("\"", "");
             temp.setLocId(1);
             Log.e("added",temp.getPname()+ temp.getPnumber());
             contactList.add(temp);
@@ -190,15 +199,15 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), contactList.size(), Toast.LENGTH_SHORT).show();
     }
 
-    private String getStringFromFile(String filePath) throws Exception {
+/*    private String getStringFromFile(String filePath) throws Exception {
         File fl = new File(filePath);
         FileInputStream fin = new FileInputStream(fl);
         String ret = convertStreamToString(fin);
         fin.close();
         return ret;
 
-    }
-    public static String convertStreamToString(InputStream is) throws Exception {
+    }*/
+   /* public static String convertStreamToString(InputStream is) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
         String line = null;
@@ -206,10 +215,10 @@ public class MainActivity extends AppCompatActivity {
             sb.append(line).append("\n");
         }
         return sb.toString();
-    }
+    }*/
 
-    public void createJsonFiles(){
-        Toast.makeText(getApplicationContext(), "creating a file", Toast.LENGTH_SHORT).show();
+/*    public void createJsonFiles() throws Exception {
+        Toast.makeText(getApplicationContext(), "creating a file or showing", Toast.LENGTH_SHORT).show();
 
         if(!fileJson.exists()){
             try {
@@ -220,8 +229,11 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }else {
+            displaycontacts();
         }
-    }
+    }*/
+/*
     public static void writeJsonFile(File file, String json)
     {
         BufferedWriter bufferedWriter = null;
@@ -247,6 +259,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+*/
 
 
 
