@@ -182,6 +182,8 @@ public class MainActivity extends AppCompatActivity {
         jobj = jobj.getAsJsonObject("Contacts");
 
         String sb = "";
+        contactList.clear();
+
         for(int x=1;x<=GSONleng;x++) {
 
             Contact temp = new Contact();
