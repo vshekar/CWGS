@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        addLocation = (Button) findViewById(R.id.add_location);
-        locName = (EditText)findViewById(R.id.locName);
+/*        addLocation = (Button) findViewById(R.id.add_location);
+        locName = (EditText)findViewById(R.id.locName);*/
         listView = (ListView) findViewById(R.id.contactList);
 
 //will be active on add_location layout
@@ -182,6 +182,8 @@ public class MainActivity extends AppCompatActivity {
         jobj = jobj.getAsJsonObject("Contacts");
 
         String sb = "";
+        contactList.clear();
+
         for(int x=1;x<=GSONleng;x++) {
 
             Contact temp = new Contact();
@@ -198,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), contactList.size(), Toast.LENGTH_SHORT).show();
     }
-
 /*    private String getStringFromFile(String filePath) throws Exception {
         File fl = new File(filePath);
         FileInputStream fin = new FileInputStream(fl);

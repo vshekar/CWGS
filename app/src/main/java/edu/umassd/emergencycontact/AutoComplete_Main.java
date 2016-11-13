@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.Settings;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.graphics.BitmapCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -57,97 +58,34 @@ import java.util.Calendar;
 import java.util.List;
 
 public class AutoComplete_Main extends AppCompatActivity {
-    public static File fileJson = new File("data/data/edu.umassd.emergencycontact/places.json");
-    Button addLocation;
-    EditText locName;
+//    public static File fileJson = new File("data/data/edu.umassd.emergencycontact/places.json");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_location);
         try {
-            createJsonFiles();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        addLocation = (Button) findViewById(R.id.add_location);
-        locName = (EditText)findViewById(R.id.locName);
 
-//will be active on add_location layout
-        addLocation.setOnClickListener(new View.OnClickListener() {
+        // this will be the first activity shown to the user
+        // will contain a list view of locations and  add location button
+        // read from JSON and display in listview
+        //show listview of pre added locations and the user will have the option to add a new location
+
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingbutton);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (locName.getText().toString().trim().equalsIgnoreCase("")) {
-                    locName.setError("This field can not be blank");
-                }
+                Intent inte = new Intent(AutoComplete_Main.this,locationSearch.class);
+                startActivity(inte);
             }
         });
-    }
-
-    public String getStringFromFile(String filePath) throws Exception {
-        File fl = new File(filePath);
-        FileInputStream fin = new FileInputStream(fl);
-        String ret = convertStreamToString(fin);
-        fin.close();
-        return ret;
-
-    }
-    public static String convertStreamToString(InputStream is) throws Exception {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-        String line = null;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line).append("\n");
-        }
-        return sb.toString();
-    }
-
-    public void createJsonFiles() throws Exception {
-        Toast.makeText(getApplicationContext(), "creating a file or showing", Toast.LENGTH_SHORT).show();
-
-        if(!fileJson.exists()){
-            try {
-                fileJson.createNewFile();
-                String jsonString = "{\"Contacts\":{}}";
-
-                writeJsonFile(fileJson, jsonString);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else {
-
-            //should implement a more adaptive way..
-            MainActivity s= new MainActivity();
-            s.displaycontacts();
-        }
-    }
-    public static void writeJsonFile(File file, String json)
-    {
-        BufferedWriter bufferedWriter = null;
-        try {
-
-            if(!file.exists()){
-                file.createNewFile();
-            }
-
-            FileWriter fileWriter = new FileWriter(file);
-            bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(json);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bufferedWriter != null){
-                    bufferedWriter.close();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
         }
     }
 
 
 
-}
