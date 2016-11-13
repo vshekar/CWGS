@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         try {
-            fjhelper.createJsonFiles(fileJson);
+            fjhelper.createJsonFiles(fileJson, "Contacts");
         } catch (Exception e) {
             e.printStackTrace();
         }

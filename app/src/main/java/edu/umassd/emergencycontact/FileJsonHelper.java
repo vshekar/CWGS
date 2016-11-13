@@ -1,6 +1,7 @@
 package edu.umassd.emergencycontact;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -36,20 +37,22 @@ public class FileJsonHelper {
         return sb.toString();
     }
 
-    public void createJsonFiles(File fileJson) throws Exception {
+    public void createJsonFiles(File fileJson, String helper) throws Exception {
       //  Toast.makeText(, "creating a file or showing", Toast.LENGTH_SHORT).show();
 
         if(!fileJson.exists()){
             try {
                 fileJson.createNewFile();
-                String jsonString = "{\"Contacts\":{}}";
-
+                String jsonString = "{\""+helper+"\":{}}";
+                Log.e("CREATE",""+jsonString);
                 writeJsonFile(fileJson, jsonString);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }else {
-        MainActivity n = new MainActivity();
+        //MainActivity n = new MainActivity();
+            Log.e("CREATE","else part");
+
 
         }
     }
