@@ -17,10 +17,14 @@
 
     <android.support.design.widget.FloatingActionButton
     android:id="@id/floatingbutton"
-    android:layout_width="match_parent"
+    android:layout_width="50dp"
     android:layout_height="wrap_content"
     android:src="@drawable/places_dp"
     android:layout_margin="16dp"
+    android:layout_marginBottom="20dip"
+    android:layout_marginRight="20dip"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentBottom="true"
     android:layout_gravity="bottom|end"
         />
 </RelativeLayout>

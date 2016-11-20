@@ -84,6 +84,7 @@ public class locationSearch extends AppCompatActivity implements PlaceSelectionL
         String jsStr = jsonParser.parse(gson.toJson(local)).toString();
         JSONObject Json = new JSONObject(jsStr);
 
+
         int len = jsonObj.getJSONObject("locations").length()+1;
         jsonObj.getJSONObject("locations").put(len+"", Json);
         filehelper.writeJsonFile(fileJson, jsonObj.toString());
