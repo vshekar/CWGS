@@ -1,5 +1,7 @@
 package edu.umassd.emergencycontact;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by Jayesh on 11/12/16.
  */
@@ -21,24 +23,16 @@ public class Location {
         this.lId = lId;
     }
 
-    public double getLat() {
-        return lat;
+    public LatLng getLatLng() {
+        return latLng;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public double getLon() {
-        return lon;
-    }
-
-    public void setLon(double lon) {
-        this.lon = lon;
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
     }
 
     public String lName;
     public String lId;
-    public double lat;
-    public double lon;
+    public LatLng latLng;
+
 }

@@ -32,6 +32,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -57,8 +58,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static edu.umassd.emergencycontact.R.id.contactList;
+import static edu.umassd.emergencycontact.R.id.locationList;
+
 public class AutoComplete_Main extends AppCompatActivity {
-//    public static File fileJson = new File("data/data/edu.umassd.emergencycontact/places.json");
+    public static File fileJson = new File("data/data/edu.umassd.emergencycontact/location.json");
+    FileJsonHelper fjhelper = new FileJsonHelper();
+    ArrayList<Location> locationArrayListList = new ArrayList<Location>();
+    ListView locationList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +75,7 @@ public class AutoComplete_Main extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        locationList = (ListView) findViewById(R.id.locationList);
 
 
         // this will be the first activity shown to the user
@@ -75,7 +83,11 @@ public class AutoComplete_Main extends AppCompatActivity {
         // read from JSON and display in listview
         //show listview of pre added locations and the user will have the option to add a new location
 
-
+        try {
+            readFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingbutton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +97,48 @@ public class AutoComplete_Main extends AppCompatActivity {
             }
         });
         }
+
+    public void readFile() throws Exception {
+
+        String jsText = fjhelper.getStringFromFile(fileJson.toString());
+
+        Log.e("Displaying JS",jsText);
+
+        int GSONleng = new JSONObject(jsText).getJSONObject("locations").length();
+        //Log.e("GONSLENg","length "+GSONleng);
+        JsonElement je = new JsonParser().parse(jsText);
+        JsonObject jobj = je.getAsJsonObject();
+        jobj = jobj.getAsJsonObject("locations");
+        locationArrayListList.clear();
+        Log.e("lname ",jobj.getAsJsonObject(1+"").get("latLng").getClass().getSimpleName());
+
+
+        for(int x=1;x<=GSONleng;x++) {
+
+            //decoding lat long sub elements to latlng
+            JsonElement jsp = new JsonParser().parse(String.valueOf(jobj.getAsJsonObject(x+"").get("latLng")));
+            JsonObject jsonObject = jsp.getAsJsonObject();
+            double lat = Double.parseDouble(jsonObject.get("latitude").toString());
+            double lon = Double.parseDouble(jsonObject.get("longitude").toString());
+            LatLng latlng = new LatLng(lat,lon);
+
+
+            Location temp = new Location();
+
+            temp.lName =jobj.getAsJsonObject(x+"").get("lName").toString().replace("\"", "");
+            temp.lId=jobj.getAsJsonObject(x+"").get("lId").toString().replace("\"", "");
+            temp.latLng = latlng;
+
+            locationArrayListList.add(temp);
+        }
+
+        locationListAdapter adapter = new locationListAdapter(this, locationArrayListList);
+        locationList.setAdapter(adapter);
+
+
+
+
     }
 
-
+}
 
