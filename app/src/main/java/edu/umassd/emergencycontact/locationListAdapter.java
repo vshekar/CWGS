@@ -54,7 +54,7 @@ public class locationListAdapter extends BaseAdapter {
         }
         Location currentListData = (Location) getItem(position);
         mViewHolder.tv_name.setText(currentListData.getlName());
-        mViewHolder.tv_description.setText(currentListData.getLatLng().toString());
+        mViewHolder.tv_description.setText(currentListData.getlId().toString());
         return convertView;
     }
     private class MyViewHolder {

@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -93,10 +94,25 @@ public class AutoComplete_Main extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent inte = new Intent(AutoComplete_Main.this,locationSearch.class);
-                startActivity(inte);
+                startActivityForResult(inte,1);
             }
         });
+
+
+
+
         }
+
+    //will get called when returning from search location to update the listview
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            readFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     public void readFile() throws Exception {
 
@@ -136,7 +152,22 @@ public class AutoComplete_Main extends AppCompatActivity {
         locationList.setAdapter(adapter);
 
 
+        locationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Location item = (Location)(locationList.getItemAtPosition(position));
+                /*String name = item.getlName()+""+item.getlId()+""+item.getLatLng();
+                Log.e("final log",""+name);
+                */
 
+                String locID = item.getlId();
+                Intent callContact = new Intent(view.getContext(), MainActivity.class);
+                callContact.putExtra("locationId",locID);
+                startActivity(callContact);
+
+
+            }
+        });
 
     }
 

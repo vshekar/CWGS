@@ -8,7 +8,7 @@ public class Contact {
 //    public int Id;
     public String Pname;
     public String Pnumber;
-    public int LocId;
+    public String LocId;
 
 /*    public Contact(String pname, String pnumber, int LocId) {
         this.setPnumber(pnumber);
@@ -16,11 +16,11 @@ public class Contact {
         this.setLocId(LocId);
     }*/
 
-    public int getLocId() {
+    public String getLocId() {
         return LocId;
     }
 
-    public void setLocId(int locId) {
+    public void setLocId(String locId) {
         LocId = locId;
     }
 
