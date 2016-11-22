@@ -64,7 +64,7 @@ public class locationSearch extends AppCompatActivity implements PlaceSelectionL
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        finish();
         //call method to save this info in a file
         //then go back to prev activity to list locations in a list view
     }

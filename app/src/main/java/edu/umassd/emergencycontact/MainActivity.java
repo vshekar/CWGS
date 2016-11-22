@@ -59,13 +59,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     public static File fileJson = new File("data/data/edu.umassd.emergencycontact/contacts.json");
 
-    Button addLocation;
     ListView listView;
-    EditText locName;
     int locId = 1;
     ArrayList<Contact> contactList = new ArrayList<Contact>();
     FileJsonHelper fjhelper = new FileJsonHelper();
-
+    String locIdfromIntent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +71,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         try {
             fjhelper.createJsonFiles(fileJson, "Contacts");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 /*        addLocation = (Button) findViewById(R.id.add_location);
         locName = (EditText)findViewById(R.id.locName);*/
+        Intent intent = getIntent();
+        locIdfromIntent = intent.getStringExtra("locationId");
         listView = (ListView) findViewById(R.id.contactList);
+        try {
+            displaycontacts();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 //will be active on add_location layout
 
@@ -129,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                             JsonParser jsonParser = new JsonParser();
 
                             Contact contact = new Contact();
-                            contact.setLocId(locId); //hard coding it for now | associated with location id
+                            contact.setLocId(locIdfromIntent); //hard coding it for now | associated with location id
                             contact.setPname(nameContact);
                             contact.setPnumber(cNumber);
 
@@ -189,9 +195,14 @@ public class MainActivity extends AppCompatActivity {
             Contact temp = new Contact();
             temp.Pname =jobj.getAsJsonObject(x+"").get("Pname").toString().replace("\"", "");;
             temp.Pnumber =jobj.getAsJsonObject(x+"").get("Pnumber").toString().replace("\"", "");
-            temp.setLocId(1);
-            contactList.add(temp);
-        }
+            temp.LocId = jobj.getAsJsonObject(x+"").get("LocId").toString().replace("\"", "");
+            boolean stemp = temp.LocId.equals(locIdfromIntent);
+            Log.e("comparing ",temp.LocId+" - "+locIdfromIntent+""+stemp);
+            if(temp.LocId.equals(locIdfromIntent)) {
+                contactList.add(temp);
+            }
+            //temp.setLocId(1+"");
+            }
 
         CustomListAdapter adapter = new CustomListAdapter(this, contactList);
         listView.setAdapter(adapter);
