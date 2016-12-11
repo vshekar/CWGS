@@ -1,74 +1,56 @@
 package edu.umassd.emergencycontact;
 
-import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.ContactsContract;
-import android.provider.Settings;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.graphics.BitmapCompat;
-import android.support.v4.widget.DrawerLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+
+import edu.umassd.emergencycontact.classes.Contact;
+import edu.umassd.emergencycontact.helpers.CustomListAdapter;
+import edu.umassd.emergencycontact.helpers.FileJsonHelper;
+import edu.umassd.emergencycontact.helpers.LocationDictionary;
 
 public class MainActivity extends AppCompatActivity {
     public static File fileJson = new File("data/data/edu.umassd.emergencycontact/contacts.json");
-
+    public boolean logging = true;
     ListView listView;
     int locId = 1;
     ArrayList<Contact> contactList = new ArrayList<Contact>();
     FileJsonHelper fjhelper = new FileJsonHelper();
     String locIdfromIntent = null;
+    LocationDictionary locationDictionary = new LocationDictionary();
+    private View mLayout;
+    private static final int PERMISSION_REQUEST_CONTACT =0;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mLayout = findViewById(R.id.mainLayout);
+
         try {
             fjhelper.createJsonFiles(fileJson, "Contacts");
 
@@ -87,29 +69,60 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-//will be active on add_location layout
 
-/*        addLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (locName.getText().toString().trim().equalsIgnoreCase("")) {
-                    locName.setError("This field can not be blank");
-                }
-            }
-        });*/
     }
 
     public void callContacts(View v) {
-        Log.e("CALLCONTACTS","Starting call contacts");
+        if (logging) {Log.e("CALLCONTACTS","Starting call contacts");}
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)== PackageManager.PERMISSION_GRANTED) {
+            Snackbar.make(mLayout,"Contact permission is available. ",Snackbar.LENGTH_SHORT).show();
+            listContactDirectory();
+            if (logging) {Log.i("Permisson","contact reading permisson granted");}
+
+        } else  {
+            requestContactPermission();
+        }
+
+    }
+
+    private void listContactDirectory() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-        startActivityForResult(intent,1);
+        startActivityForResult(intent, 1);
+    }
+
+    private void requestContactPermission() {
+        if (logging) {Log.i("Permisson","requestcontactpermission block");}
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.READ_CONTACTS)) {
+            Snackbar.make(mLayout, "Contact access is required to display the contacts.",
+                    Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Request the permission
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{Manifest.permission.READ_CONTACTS},
+                            PERMISSION_REQUEST_CONTACT);
+                }
+            }).show();
+
+        } else {
+            Snackbar.make(mLayout,
+                    "Permission is not available. Requesting permission.",
+                    Snackbar.LENGTH_SHORT).show();
+            // Request the permission. The result will be received in onRequestPermissionResult().
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS},
+                    PERMISSION_REQUEST_CONTACT);
+        }
+
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1) {
-            if(resultCode == ActionBarActivity.RESULT_OK) {
+            if(resultCode == AppCompatActivity.RESULT_OK) {
                 Uri contactData = data.getData();
                 Cursor c = getContentResolver().query(contactData,null,null,null,null);
 
@@ -135,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                             JsonParser jsonParser = new JsonParser();
 
                             Contact contact = new Contact();
-                            contact.setLocId(locIdfromIntent); //hard coding it for now | associated with location id
+                            contact.setLocId(locIdfromIntent); // associated with location id
                             contact.setPname(nameContact);
                             contact.setPnumber(cNumber);
 
@@ -176,11 +189,11 @@ public class MainActivity extends AppCompatActivity {
     public void displaycontacts() throws Exception {
 
         String jsText = fjhelper.getStringFromFile(fileJson.toString());
+        if(logging){Log.e("Displaying JS",jsText);}
 
-        Log.e("Displaying JS",jsText);
 
         int GSONleng = new JSONObject(jsText).getJSONObject("Contacts").length();
-        Log.e("GONSLENg","length "+GSONleng);
+        if(logging){Log.e("GONSLENg","length "+GSONleng);}
 
         //http://stackoverflow.com/questions/5490789/json-parsing-using-gson-for-java
         JsonElement je = new JsonParser().parse(jsText);
@@ -196,11 +209,13 @@ public class MainActivity extends AppCompatActivity {
             temp.Pname =jobj.getAsJsonObject(x+"").get("Pname").toString().replace("\"", "");;
             temp.Pnumber =jobj.getAsJsonObject(x+"").get("Pnumber").toString().replace("\"", "");
             temp.LocId = jobj.getAsJsonObject(x+"").get("LocId").toString().replace("\"", "");
+
             boolean stemp = temp.LocId.equals(locIdfromIntent);
-            Log.e("comparing ",temp.LocId+" - "+locIdfromIntent+""+stemp);
+            if(logging){Log.e("comparing ",temp.LocId+" - "+locIdfromIntent+""+stemp);}
             if(temp.LocId.equals(locIdfromIntent)) {
                 contactList.add(temp);
             }
+
             //temp.setLocId(1+"");
             }
 
@@ -209,68 +224,27 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), contactList.size(), Toast.LENGTH_SHORT).show();
     }
-/*    private String getStringFromFile(String filePath) throws Exception {
-        File fl = new File(filePath);
-        FileInputStream fin = new FileInputStream(fl);
-        String ret = convertStreamToString(fin);
-        fin.close();
-        return ret;
 
-    }*/
-   /* public static String convertStreamToString(InputStream is) throws Exception {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-        String line = null;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line).append("\n");
-        }
-        return sb.toString();
-    }*/
-
-/*    public void createJsonFiles() throws Exception {
-        Toast.makeText(getApplicationContext(), "creating a file or showing", Toast.LENGTH_SHORT).show();
-
-        if(!fileJson.exists()){
-            try {
-                fileJson.createNewFile();
-                String jsonString = "{\"Contacts\":{}}";
-
-                writeJsonFile(fileJson, jsonString);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else {
-            displaycontacts();
-        }
-    }*/
-/*
-    public static void writeJsonFile(File file, String json)
-    {
-        BufferedWriter bufferedWriter = null;
-        try {
-
-            if(!file.exists()){
-                file.createNewFile();
-            }
-
-            FileWriter fileWriter = new FileWriter(file);
-            bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(json);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bufferedWriter != null){
-                    bufferedWriter.close();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        // BEGIN_INCLUDE(onRequestPermissionsResult)
+        if (requestCode == PERMISSION_REQUEST_CONTACT) {
+            // Request for contact permission.
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission has been granted. Start camera preview Activity.
+                Snackbar.make(mLayout, "Contacts permission was granted. Starting preview.",
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+                listContactDirectory();
+            } else {
+                // Permission request was denied.
+                Snackbar.make(mLayout, "Contacts permission request was denied.",
+                        Snackbar.LENGTH_SHORT)
+                        .show();
             }
         }
     }
-*/
-
 
 
 }

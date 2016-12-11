@@ -1,4 +1,4 @@
-package edu.umassd.emergencycontact;
+package edu.umassd.emergencycontact.classes;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -6,7 +6,7 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by Jayesh on 11/12/16.
  */
 
-public class Location {
+public class Locations {
     public String getlName() {
         return lName;
     }
@@ -31,8 +31,17 @@ public class Location {
         this.latLng = latLng;
     }
 
+    public LatLng getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(LatLng currentLocation) {
+        this.currentLocation= currentLocation;
+    }
+
     public String lName;
     public String lId;
     public LatLng latLng;
+    public LatLng currentLocation;
 
 }

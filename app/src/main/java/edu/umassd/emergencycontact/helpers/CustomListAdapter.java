@@ -1,6 +1,5 @@
-package edu.umassd.emergencycontact;
+package edu.umassd.emergencycontact.helpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import edu.umassd.emergencycontact.R;
+import edu.umassd.emergencycontact.classes.Contact;
 
 /**
  * Created by Jayesh on 10/4/16.

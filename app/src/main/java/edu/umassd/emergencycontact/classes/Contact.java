@@ -1,4 +1,4 @@
-package edu.umassd.emergencycontact;
+package edu.umassd.emergencycontact.classes;
 
 /**
  * Created by Jayesh on 10/1/16.
