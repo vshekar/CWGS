@@ -1,4 +1,4 @@
-package edu.umassd.emergencycontact;
+package edu.umassd.emergencycontact.helpers;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import edu.umassd.emergencycontact.R;
+import edu.umassd.emergencycontact.classes.Locations;
+
 /**
  * Created by Jayesh on 11/19/16.
  */
@@ -16,11 +19,11 @@ import java.util.ArrayList;
 public class locationListAdapter extends BaseAdapter {
 
 
-    ArrayList<Location> list;
+    ArrayList<Locations> list;
     Context context;
     LayoutInflater mInflater;
 
-    public locationListAdapter(Context c, ArrayList<Location> list)
+    public locationListAdapter(Context c, ArrayList<Locations> list)
     {
         context = c;
         this.list = list;
@@ -52,7 +55,7 @@ public class locationListAdapter extends BaseAdapter {
         } else {
             mViewHolder = (MyViewHolder) convertView.getTag();
         }
-        Location currentListData = (Location) getItem(position);
+        Locations currentListData = (Locations) getItem(position);
         mViewHolder.tv_name.setText(currentListData.getlName());
         mViewHolder.tv_description.setText(currentListData.getlId().toString());
         return convertView;

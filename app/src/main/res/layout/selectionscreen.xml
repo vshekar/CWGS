@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mLayout"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/locationActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Set Emergency Contacts / Location"
+        />
+    <Button
+        android:id="@+id/emergencyActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Call Emergency/Police"
+        />
+    <Button
+        android:id="@+id/shareActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Share Location"
+        />
+    <Button
+        android:id="@+id/recordActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Record"
+        />
+    <Button
+        android:id="@+id/eButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Emergency"/>
+
+</LinearLayout>

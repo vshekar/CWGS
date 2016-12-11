@@ -1,4 +1,4 @@
-package edu.umassd.emergencycontact;
+package edu.umassd.emergencycontact.helpers;
 
 import android.content.Context;
 import android.util.Log;
