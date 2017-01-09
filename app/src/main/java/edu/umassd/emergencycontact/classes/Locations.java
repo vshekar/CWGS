@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
  */
 
 public class Locations {
+
     public String getlName() {
         return lName;
     }
@@ -29,14 +30,6 @@ public class Locations {
 
     public void setLatLng(LatLng latLng) {
         this.latLng = latLng;
-    }
-
-    public LatLng getCurrentLocation() {
-        return currentLocation;
-    }
-
-    public void setCurrentLocation(LatLng currentLocation) {
-        this.currentLocation= currentLocation;
     }
 
     public String lName;

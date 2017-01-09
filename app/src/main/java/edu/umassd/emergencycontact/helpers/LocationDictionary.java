@@ -9,7 +9,7 @@ import java.util.HashMap;
  */
 
 public class LocationDictionary {
-    HashMap<String, LatLng> iDandLatlon = new HashMap<>();
+    private HashMap<String, LatLng> iDandLatlon = new HashMap<>();
     String closestlocationkey;
 
     public void addToMap(String key, LatLng latLng) {
@@ -17,15 +17,14 @@ public class LocationDictionary {
             iDandLatlon.put(key,latLng);
         }
     }
-    public HashMap iDandLatlonForComparing() {
+    public HashMap<String, LatLng> iDandLatlonForComparing() {
         return iDandLatlon;
     }
+
     public String getClosestlocationkey() {
-        Log.e("getting ","id = "+closestlocationkey);
         return closestlocationkey;
     }
     public void setClosestlocationkey(String id) {
-        Log.e("setting location key","id = "+id);
         closestlocationkey =id;
     }
 }

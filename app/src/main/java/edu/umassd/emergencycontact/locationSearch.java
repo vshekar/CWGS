@@ -1,10 +1,8 @@
 package edu.umassd.emergencycontact;
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
-
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -12,11 +10,8 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
-
 import org.json.JSONObject;
-
 import java.io.File;
-
 import edu.umassd.emergencycontact.classes.Locations;
 import edu.umassd.emergencycontact.helpers.FileJsonHelper;
 
@@ -26,10 +21,10 @@ public class locationSearch extends AppCompatActivity implements PlaceSelectionL
 
 //get search values here and then to file and back to autocomplete_main
 
-
     private static final String LOG_TAG = "PlaceSelectionListener";
     private TextView txt_location;
     FileJsonHelper filehelper = new FileJsonHelper();
+    boolean logging = new MainActivity().logging;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -40,8 +35,6 @@ public class locationSearch extends AppCompatActivity implements PlaceSelectionL
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_fragment);
         txt_location = (TextView) findViewById(R.id.txt_location);
         autocompleteFragment.setOnPlaceSelectedListener(this);
@@ -54,8 +47,8 @@ public class locationSearch extends AppCompatActivity implements PlaceSelectionL
 
     @Override
     public void onPlaceSelected(Place place) {
-        Log.e(LOG_TAG ,""+place.getName());
-        txt_location.setText(place.getName());
+        if(logging)Log.e(LOG_TAG ,""+place.getName());
+       // txt_location.setText(place.getName());
         try {
             saveToFile(place.getId(),place.getLatLng(),place.getName());
         } catch (Exception e) {
