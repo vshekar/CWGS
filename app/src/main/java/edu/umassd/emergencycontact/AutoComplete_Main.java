@@ -138,18 +138,7 @@ public class AutoComplete_Main extends AppCompatActivity implements GoogleApiCli
             ActivityCompat.requestPermissions(AutoComplete_Main.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
         }
 
-     /*   if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.SEND_SMS)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.SEND_SMS)) {
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.SEND_SMS},
-                        MY_PERMISSIONS_REQUEST_SEND_SMS);
-            }*/
-
-    }
+     }
 
     //test emergency button | will be replaced with events later like user shake etc..
     public void callEmergency(Location location) throws Exception {
@@ -293,10 +282,6 @@ public class AutoComplete_Main extends AppCompatActivity implements GoogleApiCli
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Locations item = (Locations)(locationList.getItemAtPosition(position));
-                /*String name = item.getlName()+""+item.getlId()+""+item.getLatLng();
-                Log.e("final log",""+name);
-                */
-
                 String locID = item.getlId();
                 Intent callContact = new Intent(view.getContext(), MainActivity.class);
                 callContact.putExtra("locationId",locID); //passing locID to next class MainActivity.class

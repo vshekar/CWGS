@@ -215,7 +215,6 @@ public class MainActivity extends AppCompatActivity {
                 contactList.add(temp);
             }
 
-            //temp.setLocId(1+"");
             }
 
         CustomListAdapter adapter = new CustomListAdapter(this, contactList);
@@ -227,7 +226,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
-        // BEGIN_INCLUDE(onRequestPermissionsResult)
         if (requestCode == PERMISSION_REQUEST_CONTACT) {
             // Request for contact permission.
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

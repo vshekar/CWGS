@@ -38,13 +38,11 @@ public class FileJsonHelper {
     }
 
     public void createJsonFiles(File fileJson, String helper) throws Exception {
-      //  Toast.makeText(, "creating a file or showing", Toast.LENGTH_SHORT).show();
 
         if(!fileJson.exists()){
             try {
                 fileJson.createNewFile();
                 String jsonString = "{\""+helper+"\":{}}";
-                //Log.e("CREATE",""+jsonString);
                 writeJsonFile(fileJson, jsonString);
             } catch (IOException e) {
                 e.printStackTrace();
