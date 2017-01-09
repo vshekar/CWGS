@@ -31,7 +31,6 @@ public class SelectionScreen extends AppCompatActivity implements View.OnClickLi
         GoogleApiClient.OnConnectionFailedListener {
 
     Button locationAc, emergency, share, record;
-    //Locations locationClass = new Locations();
     View mLayout;
     static final int PERMISSION_LOCATION = 0;
     public Location location;

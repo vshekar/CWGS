@@ -56,9 +56,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-/*        addLocation = (Button) findViewById(R.id.add_location);
-        locName = (EditText)findViewById(R.id.locName);*/
         Intent intent = getIntent();
         locIdfromIntent = intent.getStringExtra("locationId");
         listView = (ListView) findViewById(R.id.contactList);
@@ -199,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
         JsonObject jobj = je.getAsJsonObject();
         jobj = jobj.getAsJsonObject("Contacts");
 
-       // String sb = "";
         contactList.clear();
 
         for(int x=1;x<=GSONleng;x++) {

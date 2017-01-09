@@ -201,9 +201,7 @@ public class AutoComplete_Main extends AppCompatActivity implements GoogleApiCli
             temps.Pnumber =jobj.getAsJsonObject(x+"").get("Pnumber").toString().replace("\"", "");
             temps.LocId = jobj.getAsJsonObject(x+"").get("LocId").toString().replace("\"", "");
 
-            //if(temps.LocId.equals(locationDictionary.getClosestlocationkey())) {
             if(temps.LocId.equals(dKey.get(minIndex))) {
-                //send text here
                 String message = "Help my current location is http://maps.google.com/maps?q="+location.getLatitude()+","+location.getLongitude();
                 sendSMS(temps.getPnumber(), message);
             }
