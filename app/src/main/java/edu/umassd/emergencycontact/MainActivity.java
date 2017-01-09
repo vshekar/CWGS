@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     public static File fileJson = new File("data/data/edu.umassd.emergencycontact/contacts.json");
     public boolean logging = true;
     ListView listView;
-    int locId = 1;
     ArrayList<Contact> contactList = new ArrayList<Contact>();
     FileJsonHelper fjhelper = new FileJsonHelper();
     String locIdfromIntent = null;
@@ -157,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject JSONObject = new JSONObject(jsonStr);
                             int leng = jsonObj.getJSONObject("Contacts").length()+1;
 
-                            Toast.makeText(getApplicationContext(), "Writing to file", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Adding contact", Toast.LENGTH_SHORT).show();
                             jsonObj.getJSONObject("Contacts").put(leng +"", JSONObject);
 
 

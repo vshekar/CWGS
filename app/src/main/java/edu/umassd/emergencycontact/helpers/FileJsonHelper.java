@@ -44,14 +44,12 @@ public class FileJsonHelper {
             try {
                 fileJson.createNewFile();
                 String jsonString = "{\""+helper+"\":{}}";
-                Log.e("CREATE",""+jsonString);
+                //Log.e("CREATE",""+jsonString);
                 writeJsonFile(fileJson, jsonString);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }else {
-        //MainActivity n = new MainActivity();
-            Log.e("CREATE","else part");
 
 
         }
