@@ -10,12 +10,6 @@ public class Contact {
     public String Pnumber;
     public String LocId;
 
-/*    public Contact(String pname, String pnumber, int LocId) {
-        this.setPnumber(pnumber);
-        this.setPname(pname);
-        this.setLocId(LocId);
-    }*/
-
     public String getLocId() {
         return LocId;
     }
@@ -39,15 +33,5 @@ public class Contact {
     public void setPname(String pname) {
         Pname = pname;
     }
-
-  /*  public int getId() {
-        return Id;
-    }
-
-    public void setId(int id) {
-        Id = id;
-    }
-*/
-
 
 }

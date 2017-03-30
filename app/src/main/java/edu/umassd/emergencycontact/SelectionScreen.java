@@ -31,7 +31,6 @@ public class SelectionScreen extends AppCompatActivity implements View.OnClickLi
         GoogleApiClient.OnConnectionFailedListener {
 
     Button locationAc, emergency, share, record;
-    //Locations locationClass = new Locations();
     View mLayout;
     static final int PERMISSION_LOCATION = 0;
     public Location location;
@@ -127,6 +126,8 @@ public class SelectionScreen extends AppCompatActivity implements View.OnClickLi
         Locations locationClass = new Locations();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+            //crashes here in emulator but works on a device since location.getlatitude returns null
             locationClass.currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
 
 
@@ -164,6 +165,7 @@ public class SelectionScreen extends AppCompatActivity implements View.OnClickLi
                 Snackbar.make(mLayout, "Location permission was granted..",
                         Snackbar.LENGTH_SHORT)
                         .show();
+                //if permission was already granted this block will get executed
             } else {
                 // Permission request was denied.
                 Snackbar.make(mLayout, "Location permission request was denied.",

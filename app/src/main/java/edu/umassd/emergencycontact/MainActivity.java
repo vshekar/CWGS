@@ -56,9 +56,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-/*        addLocation = (Button) findViewById(R.id.add_location);
-        locName = (EditText)findViewById(R.id.locName);*/
         Intent intent = getIntent();
         locIdfromIntent = intent.getStringExtra("locationId");
         listView = (ListView) findViewById(R.id.contactList);
@@ -199,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
         JsonObject jobj = je.getAsJsonObject();
         jobj = jobj.getAsJsonObject("Contacts");
 
-       // String sb = "";
         contactList.clear();
 
         for(int x=1;x<=GSONleng;x++) {
@@ -215,7 +211,6 @@ public class MainActivity extends AppCompatActivity {
                 contactList.add(temp);
             }
 
-            //temp.setLocId(1+"");
             }
 
         CustomListAdapter adapter = new CustomListAdapter(this, contactList);
@@ -227,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
-        // BEGIN_INCLUDE(onRequestPermissionsResult)
         if (requestCode == PERMISSION_REQUEST_CONTACT) {
             // Request for contact permission.
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
